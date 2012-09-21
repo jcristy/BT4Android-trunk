@@ -94,7 +94,7 @@ public class Updates extends SherlockFragment
 		protected void onPostExecute(String result) {
 			resultsSoFar = resultsSoFar + result;
 			
-			if (result!=null && result.contains("</rss>"))
+			if (result!=null && resultsSoFar.contains("</rss>"))
 			{
 				
 				try{

@@ -117,7 +117,7 @@ public class Routes extends SherlockFragment {
 		Resources myResource = getResources();
 		reader.readFromFile(myResource);
 		stops_ = reader.stops_;
-		setUpRoutes();
+		setUpRoutes(routes_,routesActual_);
 		RouteGetter rg = new RouteGetter();
 		rg.execute("http://www.bt4u.org/BT4U_WebService.asmx/GetCurrentRoutes?");
 
@@ -204,38 +204,38 @@ public class Routes extends SherlockFragment {
 	}
 
 	//adds actual names for bus routes
-	private void setUpRoutes() {
+	public static void setUpRoutes(Map<String,String> routes, Map<String,String> routesActual) {
 		// TODO Auto-generated method stub
-		routes_.put("---Select---","1");
-		routes_.put( "MSN - Main Street Northbound","MSN");
-		routes_.put( "MSS - Main Street Southbound", "MSS");
-		routes_.put( "HDG - Harding Ave", "HDG");
-		routes_.put( "HWD - Hethwood", "HWD");
-		routes_.put( "TTT - Two Town Trolley", "TTT");
-		routes_.put( "UMS - University Mall Shuttle", "UMS");
-		routes_.put("PRG - Progress Street", "PRG");
-		routes_.put("PH - Patrick Henry", "PH");
-		routes_.put("HXP - Hokie Express", "HXP");
-		routes_.put("TC - Toms Creek", "TC");
-		routes_.put("CRC - Corporate Research Center", "CRC");
-		routes_.put("UCB - University City Boulevard", "UCB");
-		routes_.put("BTC - BT Commuter Service", "BTC");
-		routes_.put("TE - Tuesday Route", "TE");
+		routes.put("---Select---","1");
+		routes.put( "MSN - Main Street Northbound","MSN");
+		routes.put( "MSS - Main Street Southbound", "MSS");
+		routes.put( "HDG - Harding Ave", "HDG");
+		routes.put( "HWD - Hethwood", "HWD");
+		routes.put( "TTT - Two Town Trolley", "TTT");
+		routes.put( "UMS - University Mall Shuttle", "UMS");
+		routes.put("PRG - Progress Street", "PRG");
+		routes.put("PH - Patrick Henry", "PH");
+		routes.put("HXP - Hokie Express", "HXP");
+		routes.put("TC - Toms Creek", "TC");
+		routes.put("CRC - Corporate Research Center", "CRC");
+		routes.put("UCB - University City Boulevard", "UCB");
+		routes.put("BTC - BT Commuter Service", "BTC");
+		routes.put("TE - Tuesday Route", "TE");
 
-		routesActual_.put("MSN", "Main Street Northbound");
-		routesActual_.put("MSS", "Main Street Southbound");
-		routesActual_.put("HDG", "Harding Ave");
-		routesActual_.put("HWD", "Hethwood");
-		routesActual_.put("TTT", "Two Town Trolley");
-		routesActual_.put("UMS", "University Mall Shuttle");
-		routesActual_.put("PRG", "Progress Street");
-		routesActual_.put("PH", "Patrick Henry");
-		routesActual_.put("HXP", "Hokie Express");
-		routesActual_.put("TC", "Toms Creek");
-		routesActual_.put("CRC", "Corporate Research Center");
-		routesActual_.put("UCB", "University City Boulevard");
-		routesActual_.put("BTC", "BT Commuter Service");
-		routesActual_.put("TE", "Tuesday Route");
+		routesActual.put("MSN", "Main Street Northbound");
+		routesActual.put("MSS", "Main Street Southbound");
+		routesActual.put("HDG", "Harding Ave");
+		routesActual.put("HWD", "Hethwood");
+		routesActual.put("TTT", "Two Town Trolley");
+		routesActual.put("UMS", "University Mall Shuttle");
+		routesActual.put("PRG", "Progress Street");
+		routesActual.put("PH", "Patrick Henry");
+		routesActual.put("HXP", "Hokie Express");
+		routesActual.put("TC", "Toms Creek");
+		routesActual.put("CRC", "Corporate Research Center");
+		routesActual.put("UCB", "University City Boulevard");
+		routesActual.put("BTC", "BT Commuter Service");
+		routesActual.put("TE", "Tuesday Route");
 
 	}
 

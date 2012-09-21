@@ -46,6 +46,10 @@ public class Widget extends AppWidgetProvider
 //			Intent intent = context.get
 //			route = b.getString("Route");
 //			stop  = b.getString("Stop");
+			SharedPreferences prefs = context.getSharedPreferences("widget_"+appWidgetId,0);
+			stop = prefs.getString("stop", "1101");
+			route = prefs.getString("route","HWD");
+
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			updateWidget(views, appWidgetManager, context, appWidgetIds[i]);
 		}
@@ -115,7 +119,7 @@ public class Widget extends AppWidgetProvider
 	}
 	public void updateWidget(RemoteViews views, AppWidgetManager appWidgetManager, Context context, int appWidgetId)
 	{
-		views.setTextViewText(R.id.widget_departures, "Hethwood 1216\nLoading...");
+		views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nLoading...");
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpRequest = new HttpGet("http://bt4u.org/BT4U_WebService.asmx/GetNextDepartures?routeShortName="+route+"&stopCode="+stop);
@@ -134,17 +138,17 @@ public class Widget extends AppWidgetProvider
 			String data = printXml(buff.toString());
 			
 			
-			views.setTextViewText(R.id.widget_departures, "Hethwood 1216\n"+data);
+			views.setTextViewText(R.id.widget_departures, route+" "+stop+"\n"+data);
 			PendingIntent pi = PendingIntent.getActivity(context,0,new Intent(context, BT4Android.class),PendingIntent.FLAG_UPDATE_CURRENT);
 			views.setOnClickPendingIntent(R.id.widget_departures, pi);
 		} catch (ClientProtocolException e) {
-			views.setTextViewText(R.id.widget_departures, "Hethwood 1216\nError");
+			views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
 			e.printStackTrace();
 		} catch (IOException e) {
-			views.setTextViewText(R.id.widget_departures, "Hethwood 1216\nError");
+			views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
-			views.setTextViewText(R.id.widget_departures, "Hethwood 1216\nError");
+			views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

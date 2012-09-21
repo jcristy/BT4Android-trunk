@@ -3,10 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+   	<Spinner
+   	    android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/route_select"/>
+   	<Spinner
+   	    android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/stop_select"/>
    	<Button 
-        android:layout_width="match_parent"
-    	android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
     	android:id="@+id/done_button"
+    	android:text="Save"
    	    />
 
 </LinearLayout>
