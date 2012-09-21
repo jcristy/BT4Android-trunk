@@ -18,4 +18,5 @@
 
 <resources>
     <color name="pressed_cool">#CCff9900</color>
+    <color name="widget_background">#F0FFFFFF</color>
 </resources>
