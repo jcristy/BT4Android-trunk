@@ -42,6 +42,7 @@ import android.widget.SpinnerAdapter;
 
 public class WidgetConfigure extends Activity 
 {
+	private int refresh_seconds = 5*60;
 	public void onCreate(Bundle saved)
 	{
 		super.onCreate(saved);
@@ -61,6 +62,7 @@ public class WidgetConfigure extends Activity
 		Set<String> set_routes = routes.keySet();
 		final Spinner route_select = (Spinner)findViewById(R.id.route_select);
 		final ArrayAdapter<String> routes_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+		
 		//routes_adapter.addAll(set_routes); //Min SDK Issue
 		for (String route: set_routes)
 		{
@@ -74,7 +76,6 @@ public class WidgetConfigure extends Activity
 		final ArrayAdapter<String> stops_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
 		stops_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		stop_select.setEnabled(false);
-		
 		
 		route_select.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -194,6 +195,49 @@ public class WidgetConfigure extends Activity
 			public void onNothingSelected(AdapterView<?> arg0) {}
 		});
 		
+		final Spinner refresh_select = (Spinner) findViewById(R.id.refresh_select);
+		final ArrayAdapter<String> refresh_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+		String [] timeOptions ={"5 minutes","15 minutes","30 minutes","1 Hour"}; 
+		//refresh_adapter.addAll();//Can't use for old phone support
+		for (int i=0; i<timeOptions.length;i++)
+			refresh_adapter.add(timeOptions[i]);
+		refresh_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		refresh_select.setEnabled(true);
+		refresh_select.setAdapter(refresh_adapter);
+		refresh_seconds = 5*60;
+		refresh_select.setOnItemSelectedListener(new OnItemSelectedListener(){
+			
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) 
+			{
+				switch (arg2)
+				{
+				case 0://5's
+					refresh_seconds = 5*60;
+					break;
+				case 1://15's
+					refresh_seconds = 15*60;
+					break;
+				case 2://30's
+					refresh_seconds = 30*60;
+					break;
+				case 3://60's
+					refresh_seconds = 60*60;
+					break;
+				default://TODO some kind of error message
+					
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
 		if (extras != null) {
 		    final int mAppWidgetId = extras.getInt( AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 		    
@@ -211,6 +255,8 @@ public class WidgetConfigure extends Activity
 					SharedPreferences.Editor ed = sp.edit();
 					ed.putString("route",routes.get((String)route_select.getSelectedItem()));
 					ed.putString("stop",stops.get((String)stop_select.getSelectedItem()));
+					ed.putInt("refresh", refresh_seconds);
+					Log.d("Widget", "Refresh set to "+refresh_seconds);
 					ed.commit();
 					
 					
@@ -219,11 +265,16 @@ public class WidgetConfigure extends Activity
 					   AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 					   Calendar calendar = Calendar.getInstance();
 					   calendar.setTimeInMillis(System.currentTimeMillis());
-					   calendar.add(Calendar.SECOND, 5);
-					   alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 45*1000, pendingIntent);
+					   calendar.add(Calendar.SECOND, 2);
+					   //Run every 45 s to update the GUI when the phone is awake.  Let the service determine when to ask the internet based on the settings
+					   //alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+					   Widget.lastUpdate.clear();
+					   if (Widget.alarmManager==null)
+					   {
+					   		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 45*1000, pendingIntent);
 					   
-					   Widget.SaveAlarmManager(alarmManager, pendingIntent);
-					   
+					   		Widget.SaveAlarmManager(alarmManager, pendingIntent);
+					   }
 					
 					setResult(RESULT_OK, resultValue);
 					finish();

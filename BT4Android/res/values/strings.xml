@@ -6,5 +6,6 @@
     <string name="title_activity_main">BT4Android</string>
     <string name="title_activity_routes">Routes</string>
     <string name="title_activity_favorites">Favorites</string>
+    <string name="confirm_widget_add">Save and Add</string>
 
 </resources>
