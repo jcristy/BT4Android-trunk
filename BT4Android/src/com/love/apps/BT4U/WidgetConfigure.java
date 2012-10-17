@@ -36,6 +36,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.RemoteViews;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -256,7 +257,9 @@ public class WidgetConfigure extends Activity
 					ed.putString("route",routes.get((String)route_select.getSelectedItem()));
 					ed.putString("stop",stops.get((String)stop_select.getSelectedItem()));
 					ed.putInt("refresh", refresh_seconds);
+					ed.putBoolean("smart", ((CheckBox)findViewById(R.id.smart_checkbox)).isChecked());
 					Log.d("Widget", "Refresh set to "+refresh_seconds);
+					Log.d("Widget", "Smart "+(((CheckBox)findViewById(R.id.smart_checkbox)).isChecked()?"true":"false"));
 					ed.commit();
 					
 					

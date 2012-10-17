@@ -59,9 +59,9 @@ public class Widget extends AppWidgetProvider
 			String stop = prefs.getString("stop", "1101");
 			String route = prefs.getString("route","HWD");
 			int refresh_rate = prefs.getInt("refresh", 30*60);
-			
+			boolean smart = prefs.getBoolean("smart", false);
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-			updateWidget(views, appWidgetManager, context, appWidgetIds[i],stop,route,refresh_rate);
+			updateWidget(views, appWidgetManager, context, appWidgetIds[i],stop,route,refresh_rate,smart);
 		}
 		
 	}
@@ -128,19 +128,30 @@ public class Widget extends AppWidgetProvider
 		
 		return toReturn;
 	}
-	public void updateWidget(RemoteViews views, AppWidgetManager appWidgetManager, Context context, int appWidgetId, String stop, String route, int refresh_rate)
+	public void updateWidget(RemoteViews views, AppWidgetManager appWidgetManager, Context context, int appWidgetId, String stop, String route, int refresh_rate, boolean smart)
 	{
 		//Determine if we need to go to the web
 		Calendar now = new GregorianCalendar();
 		Log.d("Widget", "Update"+appWidgetId+"'s Text @ "+(refresh_rate)+" Last update ago: "+(now.getTimeInMillis() - (lastUpdate.get(appWidgetId)==null?0:lastUpdate.get(appWidgetId).getTimeInMillis()))/1000);
 		boolean goToWeb = false;
 		
+		ArrayList<Arrival> arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
+		if (arrivals != null) Collections.sort(arrivals);
+		
+		Log.d("Widget",arrivals!=null?"arrivals not null":"arrivals null");
+		Log.d("Widget",smart?"smart":"not smart");
+		if (arrivals!=null) Log.d("Widget","#arrivals "+arrivals.size());
+		if (arrivals!=null) Log.d("Widget","time left: "+(arrivals.get(0).arrivalTime.getTimeInMillis() - now.getTimeInMillis()));
+		
 		if (lastUpdate.get(appWidgetId) == null)
 			goToWeb=true;
-		
 		else if (now.getTimeInMillis() - lastUpdate.get(appWidgetId).getTimeInMillis()>refresh_rate*1000)
-			goToWeb=true;
-		
+			goToWeb = true;
+		else if (arrivals!=null && smart && arrivals.size()>=1 && (arrivals.get(0).arrivalTime.getTimeInMillis() - now.getTimeInMillis()<8*60*1000))//under 8 minutes refresh frequently
+		{
+			goToWeb = true;
+			Log.d("Widget","Smart update");
+		}
 		//
 		if (goToWeb)
 		{
@@ -161,7 +172,7 @@ public class Widget extends AppWidgetProvider
 				}
 				bin.close();	
 				//String data = printXml(buff.toString());
-				ArrayList<Arrival> arrivals = getArrivals(buff.toString());
+				arrivals = getArrivals(buff.toString());
 				Log.d("Widget", "Arrivals #"+arrivals.size());
 				Collections.sort(arrivals);
 				arrival_times.put(Integer.valueOf(appWidgetId), arrivals);
@@ -182,7 +193,7 @@ public class Widget extends AppWidgetProvider
 		}
 		String data="";
 		Log.d("Widget", "Update Text");
-		ArrayList<Arrival> arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
+		arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		if (arrivals == null)
 		{

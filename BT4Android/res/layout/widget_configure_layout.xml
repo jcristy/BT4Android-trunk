@@ -21,4 +21,10 @@
     	android:id="@+id/done_button"
     	android:text="@string/confirm_widget_add"
    	    />
+   	<CheckBox
+   	    android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/smart_checkbox"
+    	android:text="@string/smart_widget_option"
+   	    />
 </LinearLayout>
