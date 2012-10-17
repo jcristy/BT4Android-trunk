@@ -133,15 +133,10 @@ public class Widget extends AppWidgetProvider
 		//Determine if we need to go to the web
 		Calendar now = new GregorianCalendar();
 		Log.d("Widget", "Update"+appWidgetId+"'s Text @ "+(refresh_rate)+" Last update ago: "+(now.getTimeInMillis() - (lastUpdate.get(appWidgetId)==null?0:lastUpdate.get(appWidgetId).getTimeInMillis()))/1000);
-		boolean goToWeb = false;
+		boolean goToWeb = false; 
 		
 		ArrayList<Arrival> arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
 		if (arrivals != null) Collections.sort(arrivals);
-		
-		Log.d("Widget",arrivals!=null?"arrivals not null":"arrivals null");
-		Log.d("Widget",smart?"smart":"not smart");
-		if (arrivals!=null) Log.d("Widget","#arrivals "+arrivals.size());
-		if (arrivals!=null) Log.d("Widget","time left: "+(arrivals.get(0).arrivalTime.getTimeInMillis() - now.getTimeInMillis()));
 		
 		if (lastUpdate.get(appWidgetId) == null)
 			goToWeb=true;

@@ -41,6 +41,11 @@ public class Arrival implements Comparable
 		long now = System.currentTimeMillis();
 		return (now-arrivalTime.getTimeInMillis()>0);
 	}
+	public long timeUntilInMillis()
+	{
+		long now = System.currentTimeMillis();
+		return (now-arrivalTime.getTimeInMillis());
+	}
 	public void setNote(String text) {
 		note = text;
 	}
