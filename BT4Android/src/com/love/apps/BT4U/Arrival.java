@@ -36,6 +36,11 @@ public class Arrival implements Comparable
 		long minutes = (msuntil/(60*1000))%60;
 		return (hours>0?hours+"h":"")+" "+(hours<=0 && minutes<=0 && seconds<30?"Now":(minutes>=1?minutes+"m":"1m"));
 	}
+	public boolean alreadyHappened()
+	{
+		long now = System.currentTimeMillis();
+		return (now-arrivalTime.getTimeInMillis()>0);
+	}
 	public void setNote(String text) {
 		note = text;
 	}

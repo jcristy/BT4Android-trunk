@@ -208,7 +208,7 @@ public class Widget extends AppWidgetProvider
 		{
 			for (Arrival arrival : arrivals)
 			{
-
+				if (arrival.alreadyHappened()) arrivals.remove(arrival);
 				sdf.applyPattern("h:mm");
 				data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
 			}
