@@ -150,7 +150,7 @@ public class Widget extends AppWidgetProvider
 		//
 		if (goToWeb)
 		{
-			views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nLoading...");
+			views.setTextViewText(R.id.widget_station, route+" "+stop+" Loading...");
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet httpRequest = new HttpGet("http://bt4u.org/BT4U_WebService.asmx/GetNextDepartures?routeShortName="+route+"&stopCode="+stop);
@@ -173,13 +173,13 @@ public class Widget extends AppWidgetProvider
 				arrival_times.put(Integer.valueOf(appWidgetId), arrivals);
 				lastUpdate.put(Integer.valueOf(appWidgetId),new GregorianCalendar());
 			} catch (ClientProtocolException e) {
-				views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
+				views.setTextViewText(R.id.widget_station, route+" "+stop+"\nError");
 				e.printStackTrace();
 			} catch (IOException e) {
-				views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
+				views.setTextViewText(R.id.widget_station, route+" "+stop+"\nError");
 				e.printStackTrace();
 			} catch (XmlPullParserException e) {
-				views.setTextViewText(R.id.widget_departures, route+" "+stop+"\nError");
+				views.setTextViewText(R.id.widget_station, route+" "+stop+"\nError");
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -190,14 +190,16 @@ public class Widget extends AppWidgetProvider
 		Log.d("Widget", "Update Text");
 		arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
 		SimpleDateFormat sdf = new SimpleDateFormat();
+		String times="";
+		String time_left="";
 		if (arrivals == null)
 		{
 			
-			data = "No data available";
+			times = "No data available";
 		}
 		else if (arrivals.size()==0)
 		{
-			 data = "No Rides";
+			 times = "No Rides";
 		}
 		else
 		{
@@ -212,17 +214,23 @@ public class Widget extends AppWidgetProvider
 				else
 				{
 					sdf.applyPattern("h:mm");
-					data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
+					//data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
+					times += sdf.format(arrival.arrivalTime.getTime())+"\r\n";
+					time_left += arrival.timeUntil()+"\r\n";
 				}
 			}
 		}
 		String time = sdf.format(lastUpdate.get(Integer.valueOf(appWidgetId)).getTime());
-		views.setTextViewText(R.id.widget_departures, route+" "+stop+" as of "+ time +"\n"+data);
+		views.setTextViewText(R.id.widget_station, route+" "+stop+" as of "+time);
+		views.setTextViewText(R.id.widget_departures_times, times);
+		views.setTextViewText(R.id.widget_departures_countdown, time_left);
 		PendingIntent pi = PendingIntent.getActivity(context,0,new Intent(context, BT4Android.class),PendingIntent.FLAG_UPDATE_CURRENT);
-		views.setOnClickPendingIntent(R.id.widget_departures, pi);
+		//views.setOnClickPendingIntent(R.id.widget_departures, pi);
 		
 		Log.d("Widget","Here");
-		views.setInt(R.id.widget_departures, "setBackgroundColor", R.color.widget_background);
+		views.setInt(R.id.widget_station, "setBackgroundColor", R.color.widget_background);
+		views.setInt(R.id.widget_departures_times, "setBackgroundColor", R.color.widget_background);
+		views.setInt(R.id.widget_departures_countdown, "setBackgroundColor", R.color.widget_background);
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 	}
 

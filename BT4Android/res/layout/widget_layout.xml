@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:id="@+id/widget_departures"
-    android:textColor="#ffffff">
-</TextView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/widget_station"
+	    android:textColor="#ffffff"
+	    android:gravity="center"
+	    
+	    />
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		>
+    	<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:paddingLeft="5dp"
+		    android:paddingRight="5dp"
+		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent" 
+		    android:id="@+id/widget_departures_times"
+		    android:textColor="#ffffff"
+		    
+		    >
+		</TextView>
+		<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:paddingLeft="5dp"
+		    android:paddingRight="5dp"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent" 
+		    android:id="@+id/widget_departures_countdown"
+		    android:textColor="#ffffff"
+		    android:gravity="right"
+		    
+		    >
+		</TextView>
+	</LinearLayout>
+</LinearLayout>
