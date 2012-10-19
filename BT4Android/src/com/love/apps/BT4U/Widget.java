@@ -220,7 +220,7 @@ public class Widget extends AppWidgetProvider
 		}
 		else
 		{
-			for (int i=0; i<arrivals.size();i++)
+			for (int i=0; i<arrivals.size() && i < 4;i++)
 			{
 				Arrival arrival = arrivals.get(i);
 				if (arrival.timeUntilInMillis()>30*1000)

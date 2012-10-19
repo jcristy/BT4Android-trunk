@@ -278,6 +278,10 @@ public class WidgetConfigure extends Activity
 					   
 					   		Widget.SaveAlarmManager(alarmManager, pendingIntent);
 					   }
+					   else
+					   {
+						   sendBroadcast(intent);
+					   }
 					
 					setResult(RESULT_OK, resultValue);
 					finish();
