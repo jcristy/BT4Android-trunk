@@ -222,7 +222,7 @@ public class Widget extends AppWidgetProvider
 			for (int i=0; i<arrivals.size();i++)
 			{
 				Arrival arrival = arrivals.get(i);
-				if (arrival.alreadyHappened())
+				if (arrival.timeUntilInMillis()<-30*1000)
 				{
 					arrivals.remove(arrival);
 					i--;
