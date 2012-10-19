@@ -28,6 +28,7 @@ public class Arrival implements Comparable
 		}
 		
 	}
+	
 	public String timeUntil()
 	{
 		long msuntil = arrivalTime.getTimeInMillis() - System.currentTimeMillis();
@@ -41,6 +42,10 @@ public class Arrival implements Comparable
 		long now = System.currentTimeMillis();
 		return (now-arrivalTime.getTimeInMillis()>0);
 	}
+	/**
+	 * 
+	 * @return Future times are negative, past times are positive
+	 */
 	public long timeUntilInMillis()
 	{
 		long now = System.currentTimeMillis();

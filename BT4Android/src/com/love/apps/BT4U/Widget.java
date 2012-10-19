@@ -206,6 +206,7 @@ public class Widget extends AppWidgetProvider
 		Log.d("Widget", "Update Text");
 		arrivals = arrival_times.get(Integer.valueOf(appWidgetId));
 		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern("h:mm");
 		String times="";
 		String time_left="";
 		if (arrivals == null)
@@ -215,27 +216,28 @@ public class Widget extends AppWidgetProvider
 		}
 		else if (arrivals.size()==0)
 		{
-			 times = "No Rides";
+			 times = "No Busses";
 		}
 		else
 		{
 			for (int i=0; i<arrivals.size();i++)
 			{
 				Arrival arrival = arrivals.get(i);
-				if (arrival.timeUntilInMillis()<-30*1000)
+				if (arrival.timeUntilInMillis()>30*1000)
 				{
 					arrivals.remove(arrival);
 					i--;
 				}
 				else
 				{
-					sdf.applyPattern("h:mm");
+					
 					//data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
 					times += sdf.format(arrival.arrivalTime.getTime())+"\r\n";
 					time_left += arrival.timeUntil()+"\r\n";
 				}
 			}
 		}
+		
 		String time = sdf.format(lastUpdate.get(Integer.valueOf(appWidgetId)).getTime());
 		views.setTextViewText(R.id.widget_station, route+" "+stop+" as of "+time);
 		views.setTextViewText(R.id.widget_departures_times, times);
