@@ -63,7 +63,23 @@ public class Widget extends AppWidgetProvider
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			updateWidget(views, appWidgetManager, context, appWidgetIds[i],stop,route,refresh_rate,smart);
 		}
-		
+		if (alarmManager==null)
+		{
+			Intent intent = new Intent(Widget.UPDATE_WIDGET);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+			   AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+			   Calendar calendar = Calendar.getInstance();
+			   calendar.setTimeInMillis(System.currentTimeMillis());
+			   calendar.add(Calendar.SECOND, 2);
+			   //Run every 45 s to update the GUI when the phone is awake.  Let the service determine when to ask the internet based on the settings
+			   //alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+			   Widget.lastUpdate.clear();
+			   if (Widget.alarmManager==null)
+			   {
+			   		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 45*1000, pendingIntent);
+			   		Widget.SaveAlarmManager(alarmManager, pendingIntent);
+			   }
+		}
 	}
 
 	public void onReceive(Context context, Intent intent) {

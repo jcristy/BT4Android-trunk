@@ -34,7 +34,7 @@ public class Arrival implements Comparable
 		long seconds = (msuntil/(1000))%60;
 		long hours   = msuntil/(60*60*1000);
 		long minutes = (msuntil/(60*1000))%60;
-		return (hours>0?hours+"h":"")+" "+(hours<=0 && minutes<=0 && seconds<30?"Now":(minutes>=1?minutes+"m":"0m"+seconds+"s"));
+		return (hours>0?hours+"h":"")+" "+(hours<=0 && minutes<=0 && seconds<30?"ARR":(minutes>=1?minutes+"m":"0m"+seconds+"s"));
 	}
 	public boolean alreadyHappened()
 	{
