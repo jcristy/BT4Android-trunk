@@ -201,11 +201,19 @@ public class Widget extends AppWidgetProvider
 		}
 		else
 		{
-			for (Arrival arrival : arrivals)
+			for (int i=0; i<arrivals.size();i++)
 			{
-				if (arrival.alreadyHappened()) arrivals.remove(arrival);
-				sdf.applyPattern("h:mm");
-				data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
+				Arrival arrival = arrivals.get(i);
+				if (arrival.alreadyHappened())
+				{
+					arrivals.remove(arrival);
+					i--;
+				}
+				else
+				{
+					sdf.applyPattern("h:mm");
+					data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
+				}
 			}
 		}
 		String time = sdf.format(lastUpdate.get(Integer.valueOf(appWidgetId)).getTime());
