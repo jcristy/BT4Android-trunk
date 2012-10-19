@@ -230,10 +230,10 @@ public class Widget extends AppWidgetProvider
 				}
 				else
 				{
-					
+					boolean last = arrival.note.equals("Last Departure from Stop");
 					//data += sdf.format(arrival.arrivalTime.getTime())+"\t"+arrival.timeUntil()+"\r\n";
-					times += sdf.format(arrival.arrivalTime.getTime())+"\r\n";
-					time_left += arrival.timeUntil()+"\r\n";
+					times += (last && i ==3?"*":last && i < 3?"Last Run\r\n":"")+sdf.format(arrival.arrivalTime.getTime())+"\r\n";
+					time_left += (last && i < 3?"\r\n":"")+arrival.timeUntil()+"\r\n";
 				}
 			}
 		}
